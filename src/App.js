@@ -17,26 +17,31 @@ function App() {
   },[])
 
   useEffect(()=>{
+
+    const filterHandler =()=>{
+      switch (status){
+        case "completed":
+          setfilterTodos(todos.filter( todo=> todo.completed === true ));
+          break;
+        case "uncompleted":
+          setfilterTodos(todos.filter( todo=> todo.completed === false ));
+          break;
+        default:
+          setfilterTodos(todos);
+          break;
+        }
+    }
+
+    const saveLocalTodo = ()=>{
+      localStorage.setItem("todos",JSON.stringify(todos))
+  }
+  
+
     filterHandler();
     saveLocalTodo();
   },[todos,status])
 
-  const filterHandler =()=>{
-    switch (status){
-      case "completed":
-        setfilterTodos(todos.filter( todo=> todo.completed === true ));
-        break;
-      case "uncompleted":
-        setfilterTodos(todos.filter( todo=> todo.completed === false ));
-        break;
-      default:
-        setfilterTodos(todos);
-        break;
-      }
-  }
-  const saveLocalTodo = ()=>{
-      localStorage.setItem("todos",JSON.stringify(todos))
-  }
+  
   
   const getLocalTodo = ()=>{
     if(localStorage.getItem("todos")===null){
